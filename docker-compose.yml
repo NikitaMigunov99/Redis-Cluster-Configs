@@ -77,7 +77,7 @@ services:
       - 6999:6999
     networks:
       - redis-cluster-compose
-    command: redis-cli -p 7000 -a myPassword --cluster create redis-node-1:7000 redis-node-2:7001 redis-node-3:7002 redis-node-4:7003 redis-node-5:7004 redis-node-6:7005 --cluster-replicas 1 --cluster-yes
+    command: redis-cli -p 7000 --cluster create redis-node-1:7000 redis-node-2:7001 redis-node-3:7002 redis-node-4:7003 redis-node-5:7004 redis-node-6:7005 --cluster-replicas 1 --cluster-yes
     depends_on:
       - redis-node-1
       - redis-node-2
