@@ -38,6 +38,39 @@ services:
       - ./7002:/redis
     command: redis-server /redis/redis.conf
 
+  redis-node-4:
+    image: redis:latest
+    ports:
+      - 7003:7003
+    networks:
+      - redis-cluster-compose
+    hostname: redis-node-4
+    volumes:
+      - ./7003:/redis
+    command: redis-server /redis/redis.conf
+
+  redis-node-5:
+    image: redis:latest
+    ports:
+      - 7004:7004
+    networks:
+      - redis-cluster-compose
+    hostname: redis-node-5
+    volumes:
+      - ./7004:/redis
+    command: redis-server /redis/redis.conf
+
+  redis-node-6:
+    image: redis:latest
+    ports:
+      - 7005:7005
+    networks:
+      - redis-cluster-compose
+    hostname: redis-node-6
+    volumes:
+      - ./7005:/redis
+    command: redis-server /redis/redis.conf
+
   redis-cluster-creator:
     image: redis:latest
     ports:
