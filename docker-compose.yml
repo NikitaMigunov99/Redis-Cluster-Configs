@@ -86,13 +86,14 @@ services:
       - redis-node-5
       - redis-node-6
 
-  redis-insight:
-    image: redislabs/redisinsight
-    ports:
-      - 8001:8001
-    networks:
-      - redis-cluster-compose
-    volumes:
-      - ./redisinsight:/db
-    depends_on:
-      - redis-cluster-creator
+#  redis-insight always gets stuck on step Running docker-entry.sh during startup
+#  redis-insight:
+#    image: redislabs/redisinsight
+#    ports:
+#      - 8001:8001
+#    networks:
+#      - redis-cluster-compose
+#    volumes:
+#      - ./redisinsight:/db
+#    depends_on:
+#      - redis-cluster-creator
