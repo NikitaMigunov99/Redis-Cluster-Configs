@@ -14,7 +14,7 @@ services:
     hostname: redis-node-1
     volumes:
       - ./7000:/redis
-    command: redis-server /node-1/redis.conf
+    command: redis-server /redis/redis.conf
 
   redis-node-2:
     image: redis:latest
@@ -25,7 +25,7 @@ services:
     hostname: redis-node-2
     volumes:
       - ./7001:/redis
-    command: redis-server /node-2/redis.conf
+    command: redis-server /redis/redis.conf
 
   redis-node-3:
     image: redis:latest
@@ -36,7 +36,7 @@ services:
     hostname: redis-node-3
     volumes:
       - ./7002:/redis
-    command: redis-server /node-3/redis.conf
+    command: redis-server /redis/redis.conf
 
   redis-cluster-creator:
     image: redis:latest
