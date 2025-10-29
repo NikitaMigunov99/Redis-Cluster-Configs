@@ -13,8 +13,8 @@ services:
       - redis-cluster-compose
     hostname: redis-node-1
     volumes:
-      - ./7000:/redis
-    command: redis-server /redis/redis.conf
+      - ./7000:/data
+    command: ["redis-server", "/data/redis.conf"]
 
   redis-node-2:
     image: redis:latest
@@ -24,8 +24,8 @@ services:
       - redis-cluster-compose
     hostname: redis-node-2
     volumes:
-      - ./7001:/redis
-    command: redis-server /redis/redis.conf
+      - ./7001:/data
+    command: ["redis-server", "/data/redis.conf"]
 
   redis-node-3:
     image: redis:latest
@@ -35,8 +35,8 @@ services:
       - redis-cluster-compose
     hostname: redis-node-3
     volumes:
-      - ./7002:/redis
-    command: redis-server /redis/redis.conf
+      - ./7002:/data
+    command: ["redis-server", "/data/redis.conf"]
 
   redis-node-4:
     image: redis:latest
@@ -46,8 +46,8 @@ services:
       - redis-cluster-compose
     hostname: redis-node-4
     volumes:
-      - ./7003:/redis
-    command: redis-server /redis/redis.conf
+      - ./7003:/data
+    command: ["redis-server", "/data/redis.conf"]
 
   redis-node-5:
     image: redis:latest
@@ -57,8 +57,8 @@ services:
       - redis-cluster-compose
     hostname: redis-node-5
     volumes:
-      - ./7004:/redis
-    command: redis-server /redis/redis.conf
+      - ./7004:/data
+    command: ["redis-server", "/data/redis.conf"]
 
   redis-node-6:
     image: redis:latest
@@ -68,16 +68,24 @@ services:
       - redis-cluster-compose
     hostname: redis-node-6
     volumes:
-      - ./7005:/redis
-    command: redis-server /redis/redis.conf
+      - ./7005:/data
+    command: ["redis-server", "/data/redis.conf"]
 
   redis-cluster-creator:
     image: redis:latest
-    ports:
-      - 6999:6999
     networks:
       - redis-cluster-compose
-    command: redis-cli -p 7000 --cluster create redis-node-1:7000 redis-node-2:7001 redis-node-3:7002 redis-node-4:7003 redis-node-5:7004 redis-node-6:7005 --cluster-replicas 1 --cluster-yes
+    command: >
+      bash -c '
+      sleep 10 &&
+      redis-cli --cluster create \
+          $(hostname -i):7000 \
+          $(hostname -i):7001 \
+          $(hostname -i):7002 \
+          $(hostname -i):7003 \
+          $(hostname -i):7004 \
+          $(hostname -i):7005 \
+          --cluster-replicas 1'
     depends_on:
       - redis-node-1
       - redis-node-2
