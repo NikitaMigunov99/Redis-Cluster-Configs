@@ -7,7 +7,7 @@ networks:
 services:
   # Node 0
   redis-node-0:
-    image: docker.io/bitnami/redis-cluster:7.4
+    image: docker.io/bitnami/redis-cluster:8.0.3-debian-12-r1
     hostname: redis-node-0
     ports:
       - "6379:6379"
@@ -26,7 +26,7 @@ services:
 
   # Node 1
   redis-node-1:
-    image: docker.io/bitnami/redis-cluster:7.4
+    image: docker.io/bitnami/redis-cluster:8.0.3-debian-12-r1
     hostname: redis-node-1
     ports:
       - "6380:6379"
@@ -45,7 +45,7 @@ services:
 
   # Node 2
   redis-node-2:
-    image: docker.io/bitnami/redis-cluster:7.4
+    image: docker.io/bitnami/redis-cluster:8.0.3-debian-12-r1
     hostname: redis-node-2
     ports:
       - "6381:6379"
@@ -64,7 +64,7 @@ services:
 
   # Node 3
   redis-node-3:
-    image: docker.io/bitnami/redis-cluster:7.4
+    image: docker.io/bitnami/redis-cluster:8.0.3-debian-12-r1
     hostname: redis-node-3
     ports:
       - "6382:6379"
@@ -83,7 +83,7 @@ services:
 
   # Node 4
   redis-node-4:
-    image: docker.io/bitnami/redis-cluster:7.4
+    image: docker.io/bitnami/redis-cluster:8.0.3-debian-12-r1
     hostname: redis-node-4
     ports:
       - "6383:6379"
@@ -102,7 +102,7 @@ services:
 
   # Node 5 (Cluster Creator)
   redis-node-5:
-    image: docker.io/bitnami/redis-cluster:7.4
+    image: docker.io/bitnami/redis-cluster:8.0.3-debian-12-r1
     hostname: redis-node-5
     ports:
       - "6384:6379"
