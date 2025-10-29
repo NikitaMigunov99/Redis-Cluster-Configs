@@ -128,16 +128,16 @@ services:
     networks:
       - redis-cluster-net
 
-#  redis-insight always gets stuck on step Running docker-entry.sh during startup
-#  redis-insight:
-#    image: redis/redisinsight
-#    restart: always
-#    ports:
-#      - "5540:5540"
-#    volumes:
-#      - redisinsight_data:/data
-#    networks:
-#      - redis-cluster-net
+  # redis-insight always gets stuck on step Running docker-entry.sh during startup
+  redis-insight:
+    image: redis/redisinsight
+    restart: always
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight_data:/data
+    networks:
+      - redis-cluster-net
 
 volumes:
   redis_cluster_data_0:
