@@ -6,7 +6,7 @@ networks:
 
 services:
   redis-node-1:
-    image: redis:latest
+    image: redis:8.2.2
     ports:
       - 7000:7000
     networks:
@@ -17,7 +17,7 @@ services:
     command: ["redis-server", "/data/redis.conf"]
 
   redis-node-2:
-    image: redis:latest
+    image: redis:8.2.2
     ports:
       - 7001:7001
     networks:
@@ -28,7 +28,7 @@ services:
     command: ["redis-server", "/data/redis.conf"]
 
   redis-node-3:
-    image: redis:latest
+    image: redis:8.2.2
     ports:
       - 7002:7002
     networks:
@@ -39,7 +39,7 @@ services:
     command: ["redis-server", "/data/redis.conf"]
 
   redis-node-4:
-    image: redis:latest
+    image: redis:8.2.2
     ports:
       - 7003:7003
     networks:
@@ -50,7 +50,7 @@ services:
     command: ["redis-server", "/data/redis.conf"]
 
   redis-node-5:
-    image: redis:latest
+    image: redis:8.2.2
     ports:
       - 7004:7004
     networks:
@@ -61,7 +61,7 @@ services:
     command: ["redis-server", "/data/redis.conf"]
 
   redis-node-6:
-    image: redis:latest
+    image: redis:8.2.2
     ports:
       - 7005:7005
     networks:
@@ -72,7 +72,7 @@ services:
     command: ["redis-server", "/data/redis.conf"]
 
   redis-cluster-creator:
-    image: redis:latest
+    image: redis:8.2.2
     networks:
       - redis-cluster-compose
     command: >
