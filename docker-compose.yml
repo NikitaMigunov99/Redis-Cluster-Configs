@@ -1,107 +1,149 @@
 version: '3'
 
 networks:
-  redis-cluster-compose:
+  redis-cluster-net:
     driver: bridge
 
 services:
+  # Node 0
+  redis-node-0:
+    image: docker.io/bitnami/redis-cluster:7.4
+    hostname: redis-node-0
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=bitnami
+      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    volumes:
+      - redis_cluster_data_0:/bitnami
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - redis-cluster-net
+
+  # Node 1
   redis-node-1:
-    image: redis:8.2.2
-    ports:
-      - 7000:7000
-    networks:
-      - redis-cluster-compose
+    image: docker.io/bitnami/redis-cluster:7.4
     hostname: redis-node-1
+    ports:
+      - "6380:6379"
+    environment:
+      - REDIS_PASSWORD=bitnami
+      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
     volumes:
-      - ./7000:/data
-    command: ["redis-server", "/data/redis.conf"]
+      - redis_cluster_data_1:/bitnami
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - redis-cluster-net
 
+  # Node 2
   redis-node-2:
-    image: redis:8.2.2
-    ports:
-      - 7001:7001
-    networks:
-      - redis-cluster-compose
+    image: docker.io/bitnami/redis-cluster:7.4
     hostname: redis-node-2
+    ports:
+      - "6381:6379"
+    environment:
+      - REDIS_PASSWORD=bitnami
+      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
     volumes:
-      - ./7001:/data
-    command: ["redis-server", "/data/redis.conf"]
+      - redis_cluster_data_2:/bitnami
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - redis-cluster-net
 
+  # Node 3
   redis-node-3:
-    image: redis:8.2.2
-    ports:
-      - 7002:7002
-    networks:
-      - redis-cluster-compose
+    image: docker.io/bitnami/redis-cluster:7.4
     hostname: redis-node-3
+    ports:
+      - "6382:6379"
+    environment:
+      - REDIS_PASSWORD=bitnami
+      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
     volumes:
-      - ./7002:/data
-    command: ["redis-server", "/data/redis.conf"]
+      - redis_cluster_data_3:/bitnami
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - redis-cluster-net
 
+  # Node 4
   redis-node-4:
-    image: redis:8.2.2
-    ports:
-      - 7003:7003
-    networks:
-      - redis-cluster-compose
+    image: docker.io/bitnami/redis-cluster:7.4
     hostname: redis-node-4
+    ports:
+      - "6383:6379"
+    environment:
+      - REDIS_PASSWORD=bitnami
+      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
     volumes:
-      - ./7003:/data
-    command: ["redis-server", "/data/redis.conf"]
+      - redis_cluster_data_4:/bitnami
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - redis-cluster-net
 
+  # Node 5 (Cluster Creator)
   redis-node-5:
-    image: redis:8.2.2
-    ports:
-      - 7004:7004
-    networks:
-      - redis-cluster-compose
+    image: docker.io/bitnami/redis-cluster:7.4
     hostname: redis-node-5
-    volumes:
-      - ./7004:/data
-    command: ["redis-server", "/data/redis.conf"]
-
-  redis-node-6:
-    image: redis:8.2.2
     ports:
-      - 7005:7005
-    networks:
-      - redis-cluster-compose
-    hostname: redis-node-6
-    volumes:
-      - ./7005:/data
-    command: ["redis-server", "/data/redis.conf"]
-
-  redis-cluster-creator:
-    image: redis:8.2.2
-    networks:
-      - redis-cluster-compose
-    command: >
-      bash -c '
-      sleep 10 &&
-      redis-cli --cluster create \
-          $(hostname -i):7000 \
-          $(hostname -i):7001 \
-          $(hostname -i):7002 \
-          $(hostname -i):7003 \
-          $(hostname -i):7004 \
-          $(hostname -i):7005 \
-          --cluster-replicas 1'
+      - "6384:6379"
     depends_on:
+      - redis-node-0
       - redis-node-1
       - redis-node-2
       - redis-node-3
       - redis-node-4
-      - redis-node-5
-      - redis-node-6
+    environment:
+      - REDIS_PASSWORD=bitnami
+      - REDISCLI_AUTH=bitnami
+      - REDIS_CLUSTER_REPLICAS=1
+      - REDIS_CLUSTER_CREATOR=yes
+      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    volumes:
+      - redis_cluster_data_5:/bitnami
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - redis-cluster-net
 
 #  redis-insight always gets stuck on step Running docker-entry.sh during startup
 #  redis-insight:
-#    image: redislabs/redisinsight
+#    image: redis/redisinsight
+#    restart: always
 #    ports:
-#      - 8001:8001
-#    networks:
-#      - redis-cluster-compose
+#      - "5540:5540"
 #    volumes:
-#      - ./redisinsight:/db
-#    depends_on:
-#      - redis-cluster-creator
+#      - redisinsight_data:/data
+#    networks:
+#      - redis-cluster-net
+
+volumes:
+  redis_cluster_data_0:
+  redis_cluster_data_1:
+  redis_cluster_data_2:
+  redis_cluster_data_3:
+  redis_cluster_data_4:
+  redis_cluster_data_5:
+  redisinsight_data:
