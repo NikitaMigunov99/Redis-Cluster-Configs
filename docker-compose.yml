@@ -2,7 +2,7 @@ version: '3'
 
 networks:
   redis-cluster-net:
-    driver: bridge
+    driver: host
 
 services:
   # Node 0
