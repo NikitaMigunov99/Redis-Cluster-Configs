@@ -1,149 +1,79 @@
-version: '3'
-
-networks:
-  redis-cluster-net:
-    driver: bridge
+version: "3.9"
 
 services:
-  # Node 0
-  redis-node-0:
-    image: bitnamilegacy/redis-cluster:8.2.1
-    hostname: redis-node-0
-    ports:
-      - "6379:6379"
-    environment:
-      - REDIS_PASSWORD=bitnami
-      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
-    volumes:
-      - redis_cluster_data_0:/bitnami
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - redis-cluster-net
-
-  # Node 1
   redis-node-1:
-    image: bitnamilegacy/redis-cluster:8.2.1
-    hostname: redis-node-1
-    ports:
-      - "6380:6379"
-    environment:
-      - REDIS_PASSWORD=bitnami
-      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    image: redis:8.4
+    container_name: redis-node-1
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis_cluster_data_1:/bitnami
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - redis-cluster-net
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+    ports:
+      - "7001:6379"
+    networks: [redis-net]
 
-  # Node 2
   redis-node-2:
-    image: bitnamilegacy/redis-cluster:8.2.1
-    hostname: redis-node-2
-    ports:
-      - "6381:6379"
-    environment:
-      - REDIS_PASSWORD=bitnami
-      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    image: redis:8.4
+    container_name: redis-node-2
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis_cluster_data_2:/bitnami
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - redis-cluster-net
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+    ports:
+      - "7002:6379"
+    networks: [redis-net]
 
-  # Node 3
   redis-node-3:
-    image: bitnamilegacy/redis-cluster:8.2.1
-    hostname: redis-node-3
-    ports:
-      - "6382:6379"
-    environment:
-      - REDIS_PASSWORD=bitnami
-      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    image: redis:8.4
+    container_name: redis-node-3
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis_cluster_data_3:/bitnami
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - redis-cluster-net
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+    ports:
+      - "7003:6379"
+    networks: [redis-net]
 
-  # Node 4
   redis-node-4:
-    image: bitnamilegacy/redis-cluster:8.2.1
-    hostname: redis-node-4
-    ports:
-      - "6383:6379"
-    environment:
-      - REDIS_PASSWORD=bitnami
-      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    image: redis:8.4
+    container_name: redis-node-4
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis_cluster_data_4:/bitnami
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - redis-cluster-net
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+    ports:
+      - "7004:6379"
+    networks: [redis-net]
 
-  # Node 5 (Cluster Creator)
   redis-node-5:
-    image: bitnamilegacy/redis-cluster:8.2.1
-    hostname: redis-node-5
-    ports:
-      - "6384:6379"
-    depends_on:
-      - redis-node-0
-      - redis-node-1
-      - redis-node-2
-      - redis-node-3
-      - redis-node-4
-    environment:
-      - REDIS_PASSWORD=bitnami
-      - REDISCLI_AUTH=bitnami
-      - REDIS_CLUSTER_REPLICAS=1
-      - REDIS_CLUSTER_CREATOR=yes
-      - REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5
+    image: redis:8.4
+    container_name: redis-node-5
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis_cluster_data_5:/bitnami
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - redis-cluster-net
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+    ports:
+      - "7005:6379"
+    networks: [redis-net]
 
-  # redis-insight always gets stuck on step Running docker-entry.sh during startup
+  redis-node-6:
+    image: redis:8.4
+    container_name: redis-node-6
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+    ports:
+      - "7006:6379"
+    networks: [redis-net]
+
   redis-insight:
-    image: redis/redisinsight
-    restart: always
+    image: redis/redisinsight:3.0
+    container_name: redis-insight
     ports:
       - "5540:5540"
-    volumes:
-      - redisinsight_data:/data
-    networks:
-      - redis-cluster-net
+    networks: [redis-net]
 
-volumes:
-  redis_cluster_data_0:
-  redis_cluster_data_1:
-  redis_cluster_data_2:
-  redis_cluster_data_3:
-  redis_cluster_data_4:
-  redis_cluster_data_5:
-  redisinsight_data:
+networks:
+  redis-net:
+    driver: bridge

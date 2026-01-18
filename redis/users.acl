@@ -1,0 +1,2 @@
+user default off
+user my-client on >my-password1 ~* +@all
