@@ -4,79 +4,73 @@ services:
   redis-node-1:
     image: redis:8.4
     container_name: redis-node-1
-    command: redis-server /usr/local/etc/redis/node-1.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
       - redis-node-1-data:/data
     ports:
       - "7001:6379"
-      - "17001:16379"
     networks: [redis-net]
 
   redis-node-2:
     image: redis:8.4
     container_name: redis-node-2
-    command: redis-server /usr/local/etc/redis/node-2.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
       - redis-node-2-data:/data
     ports:
       - "7002:6379"
-      - "17002:16379"
     networks: [redis-net]
 
   redis-node-3:
     image: redis:8.4
     container_name: redis-node-3
-    command: redis-server /usr/local/etc/redis/node-3.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
       - redis-node-3-data:/data
     ports:
       - "7003:6379"
-      - "17003:16379"
     networks: [redis-net]
 
   redis-node-4:
     image: redis:8.4
     container_name: redis-node-4
-    command: redis-server /usr/local/etc/redis/node-4.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
       - redis-node-4-data:/data
     ports:
       - "7004:6379"
-      - "17004:16379"
     networks: [redis-net]
 
   redis-node-5:
     image: redis:8.4
     container_name: redis-node-5
-    command: redis-server /usr/local/etc/redis/node-5.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
       - redis-node-5-data:/data
     ports:
       - "7005:6379"
-      - "17005:16379"
     networks: [redis-net]
 
   redis-node-6:
     image: redis:8.4
     container_name: redis-node-6
-    command: redis-server /usr/local/etc/redis/node-6.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
       - redis-node-6-data:/data
     ports:
       - "7006:6379"
-      - "17006:16379"
     networks: [redis-net]
 
   redis-insight:
