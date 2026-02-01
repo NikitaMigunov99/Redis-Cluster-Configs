@@ -83,12 +83,13 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    network_mode: host
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
     restart: unless-stopped
 
   grafana:
