@@ -46,9 +46,9 @@ services:
     container_name: sentinel-1
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
-      - ./redis/data:/data
+      - ./sentinel/data:/data
     environment:
       - SKIP_FIX_PERMS=1
     depends_on:
@@ -63,9 +63,9 @@ services:
     container_name: sentinel-2
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
-      - ./redis/data:/data
+      - ./sentinel/data:/data
     environment:
       - SKIP_FIX_PERMS=1
     depends_on:
@@ -80,9 +80,9 @@ services:
     container_name: sentinel-3
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
-      - ./redis/data:/data
+      - ./sentinel/data:/data
     environment:
       - SKIP_FIX_PERMS=1
     depends_on:
