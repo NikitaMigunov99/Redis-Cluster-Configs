@@ -48,6 +48,9 @@ services:
     volumes:
       - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./redis/data:/data
+    environment:
+      - SKIP_FIX_PERMS=1
     depends_on:
       - redis-master
     ports:
@@ -62,6 +65,9 @@ services:
     volumes:
       - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./redis/data:/data
+    environment:
+      - SKIP_FIX_PERMS=1
     depends_on:
       - redis-master
     ports:
@@ -76,6 +82,9 @@ services:
     volumes:
       - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./redis/data:/data
+    environment:
+      - SKIP_FIX_PERMS=1
     depends_on:
       - redis-master
     ports:
