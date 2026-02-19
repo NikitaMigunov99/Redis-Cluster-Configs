@@ -1,2 +1,7 @@
 user default off
-user my-client on >my-password1 ~* +@all
+
+# Client access to data nodes
+user my-client on >my-password1 allcommands allkeys
+
+# Sentinel access
+user sentinel-username on >my-sentinel-password allcommands allkeys

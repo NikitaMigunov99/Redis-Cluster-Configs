@@ -3,74 +3,83 @@ version: "3.9"
 services:
   redis-master:
     image: redis:8.4
-    command: redis-server /usr/local/etc/redis/redis.conf
+    container_name: redis-master
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
     ports:
       - "6379:6379"
-    volumes:
-      - ./redis/redis-master.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
     networks:
       - redis-net
 
   redis-replica-1:
     image: redis:8.4
-    command: redis-server /usr/local/etc/redis/redis.conf
-    ports:
-      - "6380:6379"
+    container_name: redis-replica-1
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--replicaof", "redis-master", "6379"]
     volumes:
-      - ./redis/redis-replica.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
+    ports:
+      - "6380:6379"
     networks:
       - redis-net
 
   redis-replica-2:
     image: redis:8.4
-    command: redis-server /usr/local/etc/redis/redis.conf
-    ports:
-      - "6381:6379"
+    container_name: redis-replica-2
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--replicaof", "redis-master", "6379"]
     volumes:
-      - ./redis/redis-replica.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
+    ports:
+      - "6381:6379"
     networks:
       - redis-net
 
   sentinel-1:
     image: redis:8.4
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
-    ports:
-      - "26379:26379"
+    container_name: sentinel-1
+    command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
       - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
+    ports:
+      - "26379:26379"
     networks:
       - redis-net
 
   sentinel-2:
     image: redis:8.4
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
-    ports:
-      - "26380:26379"
+    container_name: sentinel-2
+    command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
       - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
+    ports:
+      - "26380:26379"
     networks:
       - redis-net
 
   sentinel-3:
     image: redis:8.4
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
-    ports:
-      - "26381:26379"
+    container_name: sentinel-3
+    command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
       - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
+    ports:
+      - "26381:26379"
     networks:
       - redis-net
 
@@ -79,8 +88,15 @@ services:
     container_name: redisinsight
     ports:
       - "5540:5540"
+    volumes:
+      - redisinsight-data:/data
+    depends_on:
+      - redis-master
     networks:
       - redis-net
+
+volumes:
+  redisinsight-data:
 
 networks:
   redis-net:
