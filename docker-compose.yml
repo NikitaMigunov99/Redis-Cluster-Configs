@@ -6,8 +6,8 @@ services:
     container_name: redis-master
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl:ro
     ports:
       - "6379:6379"
     networks:
@@ -18,8 +18,8 @@ services:
     container_name: redis-replica-1
     command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--replicaof", "redis-master", "6379"]
     volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl:ro
     depends_on:
       - redis-master
     ports:
@@ -32,8 +32,8 @@ services:
     container_name: redis-replica-2
     command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--replicaof", "redis-master", "6379"]
     volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl:ro
     depends_on:
       - redis-master
     ports:
@@ -46,11 +46,12 @@ services:
     container_name: sentinel-1
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf:ro
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl:ro
       - ./sentinel/data:/data
     environment:
       - SKIP_FIX_PERMS=1
+      - REDIS_SENTINEL_CHECKPOINT_DIR=/data
     depends_on:
       - redis-master
     ports:
@@ -63,11 +64,12 @@ services:
     container_name: sentinel-2
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf:ro
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl:ro
       - ./sentinel/data:/data
     environment:
       - SKIP_FIX_PERMS=1
+      - REDIS_SENTINEL_CHECKPOINT_DIR=/data
     depends_on:
       - redis-master
     ports:
@@ -80,11 +82,12 @@ services:
     container_name: sentinel-3
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
-      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf:ro
+      - ./redis/users.acl:/usr/local/etc/redis/users.acl:ro
       - ./sentinel/data:/data
     environment:
       - SKIP_FIX_PERMS=1
+      - REDIS_SENTINEL_CHECKPOINT_DIR=/data
     depends_on:
       - redis-master
     ports:
