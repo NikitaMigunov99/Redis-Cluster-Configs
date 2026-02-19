@@ -46,7 +46,7 @@ services:
     container_name: sentinel-1
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
@@ -60,7 +60,7 @@ services:
     container_name: sentinel-2
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
@@ -74,7 +74,7 @@ services:
     container_name: sentinel-3
     command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
     volumes:
-      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
       - ./redis/users.acl:/usr/local/etc/redis/users.acl
     depends_on:
       - redis-master
